@@ -1,0 +1,46 @@
+services:
+  postgresdb:
+    image: postgres:16-alpine
+    container_name: dentalclinic-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: dentalclinicdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - springboot-dentalclinic-net
+
+  backend:
+    image: sairamachandramurthy/docker-backend-2400031930:latest
+    container_name: dentalclinic-backend
+    ports:
+      - "2008:2008"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/dentalclinicdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: docker
+    depends_on:
+      - postgresdb
+    restart: on-failure
+    networks:
+      - springboot-dentalclinic-net
+
+  frontend:
+    image: sairamachandramurthy/docker-frontend-2400031930:latest
+    container_name: dentalclinic-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: on-failure
+    networks:
+      - springboot-dentalclinic-net
+
+volumes:
+  postgres_data:
+
+networks:
+  springboot-dentalclinic-net:

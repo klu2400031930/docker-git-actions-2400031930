@@ -1,0 +1,31 @@
+
+# Eclipse workspace files
+.metadata/
+**/.metadata/
+.settings/
+.classpath
+.project
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build files
+target/
+**/target/
+dist/
+**/dist/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
